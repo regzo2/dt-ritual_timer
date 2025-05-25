@@ -200,17 +200,17 @@ mod:hook_safe(CLASS.HudElementBossHealth, "update", function(self, dt, t)
 
             if target.last_health_percent ~= current_health_percent then
                 if target.timer_countdown and target.timer_countdown > 0 then
-                    mod:echo("steps: " .. target.timer_countdown)
+                    --mod:echo("steps: " .. target.timer_countdown)
                     target.timer_countdown = target.timer_countdown - 1
                 end
                 local _dt = t - (target.last_time_checked or t)
-                mod:echo("stats: " .. current_health_percent.. " " .. (target.last_health_percent or "nil") .. " " .. _dt)
+                --mod:echo("stats: " .. current_health_percent.. " " .. (target.last_health_percent or "nil") .. " " .. _dt)
                 local raw_rate = _calculate_rate(
                     current_health_percent, 
                     target.last_health_percent,
                     _dt
                 )
-                mod:echo("rr" .. (raw_rate or "nil"))
+                --mod:echo("rr" .. (raw_rate or "nil"))
                 target._filter_hz = 1/_dt
                 if raw_rate and raw_rate < 0 then
                     target._filter_min_cutoff = 0.001
