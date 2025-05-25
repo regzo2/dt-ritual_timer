@@ -58,6 +58,9 @@ mod:hook_safe(CLASS.HudElementBossHealth, "event_boss_encounter_start", function
     if target and _timer_boss_active[breed_name] then
         target.ritual_timer = true
         target.breed_name = breed_name
+        if breed_name == "chaos_mutator_daemonhost" then -- workaround for health start oversight
+            target.timer_countdown = 3
+        end
         --target.time = 1
     end
 
@@ -196,8 +199,12 @@ mod:hook_safe(CLASS.HudElementBossHealth, "update", function(self, dt, t)
             end
 
             if target.last_health_percent ~= current_health_percent then
+                if target.timer_countdown and target.timer_countdown > 0 then
+                    mod:echo("steps: " .. target.timer_countdown)
+                    target.timer_countdown = target.timer_countdown - 1
+                end
                 local _dt = t - (target.last_time_checked or t)
-                --mod:echo("stats: " .. current_health_percent.. " " .. (target.last_health_percent or "nil") .. " " .. _dt)
+                mod:echo("stats: " .. current_health_percent.. " " .. (target.last_health_percent or "nil") .. " " .. _dt)
                 local raw_rate = _calculate_rate(
                     current_health_percent, 
                     target.last_health_percent,
@@ -205,11 +212,17 @@ mod:hook_safe(CLASS.HudElementBossHealth, "update", function(self, dt, t)
                 )
                 mod:echo("rr" .. (raw_rate or "nil"))
                 target._filter_hz = 1/_dt
-                target._filter_min_cutoff = 0.001
-                target._filter_beta = 1
-                target._filter_d_cutoff = 0.1
+                if raw_rate and raw_rate < 0 then
+                    target._filter_min_cutoff = 0.001
+                    target._filter_beta = 1
+                    target._filter_d_cutoff = 0.1
+                else
+                    target._filter_min_cutoff = 10
+                    target._filter_beta = 30
+                    target._filter_d_cutoff = 10
+                end
                 target.rate = _filter_health_rate(target, raw_rate) or target.rate
-                mod:echo("r" .. (target.rate or "nil"))
+                --mod:echo("r" .. (target.rate or "nil"))
                 
                 if target.rate and (target.rate ~= 0 or math.abs(target.rate) > 1) then
                     local dir = (target.last_health_percent - current_health_percent) < 0 and 1 or 0
@@ -229,7 +242,9 @@ mod:hook_safe(CLASS.HudElementBossHealth, "update", function(self, dt, t)
                 target.time = math.max(0, target.time - dt * target.dt_decay)
             end
 
-            if target.rate and (_timer_boss_data[target.breed_name].regen == false) and target.rate > 0 then
+            if target.timer_countdown and target.timer_countdown > 0 then
+                _set_widget_visibility(ritual_timer_widget, false, dt)
+            elseif target.rate and (_timer_boss_data[target.breed_name].regen == false) and target.rate > 0 then
                 _set_widget_visibility(ritual_timer_widget, false, dt)
             elseif target.rate and (_timer_boss_data[target.breed_name].ttk == false) and target.rate <= 0 then
                 _set_widget_visibility(ritual_timer_widget, false, dt)
