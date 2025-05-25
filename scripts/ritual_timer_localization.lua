@@ -6,8 +6,6 @@ local function _setup_boss_localization()
     local localization = {}
     local language =  Managers.localization and Managers.localization:language()
 
-    gbl_breeds = Breeds
-
     for _, breed in pairs(Breeds) do
         if breed.is_boss then
             localization["group_" .. breed.name .. "_settings"] = {}
@@ -69,15 +67,11 @@ local function _localization_table()
         _setup_boss_localization(),
     }
 
-    gbl_1 = categories
-
     for _, locs in pairs(categories) do
         for k, v in pairs(locs) do 
             localizations[k] = v
         end
     end
-
-    gbl_loc = localizations
 
     return localizations
 end

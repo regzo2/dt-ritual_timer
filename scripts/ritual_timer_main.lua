@@ -56,7 +56,6 @@ mod:hook_safe(CLASS.HudElementBossHealth, "event_boss_encounter_start", function
 
     --if target and boss_extension:display_name() == "loc_mutator_daemonhost_name" then
     if target and _timer_boss_active[breed_name] then
-        gbl_boss_ext = boss_extension
         target.ritual_timer = true
         target.breed_name = breed_name
         --target.time = 1
@@ -170,8 +169,7 @@ local function _set_widget_visibility(widget, visible, dt)
         widget.content.visible = true
     end
 
-    widget.alpha_multiplier = math.max(0, math.min(1, (widget.alpha_multiplier or 0) + visible_rate))
-    gbl_widget = widget    
+    widget.alpha_multiplier = math.max(0, math.min(1, (widget.alpha_multiplier or 0) + visible_rate)) 
 end
 
 mod:hook_safe(CLASS.HudElementBossHealth, "update", function(self, dt, t)
