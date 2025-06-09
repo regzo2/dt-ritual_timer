@@ -19,42 +19,56 @@ end
 local base_localization = {
     mod_name = {
         en = "Boss Timer",
+        ["zh-cn"] = "Boss计时器",
+ 
     },
     mod_description = {
         en = "Adds a timer to bosses and Hexbound rituals.",
+        ["zh-cn"] = "为Boss、仪式宿主添加计时器——B站独一无二的小真寻汉化",
+       
     },
-
+ 
     group_timer_settings = {
-        en = "Timer Settings"
+        en = "Timer Settings",
+        ["zh-cn"] = "时间设置",
     },
     sett_timer_lerp_id = {
         en = "Timer Smoothness",
+        ["zh-cn"] = "计时器平滑度",
     },
     sett_timer_format_id = {
         en = "Timer Format",
+        ["zh-cn"] = "计时器格式",
     },
     sett_timer_millisecond_decimals_id = {
         en = "Timer Millisecond Decimals",
+        ["zh-cn"] = "计时器平滑度",
     },
     sett_timer_visible_time_id = {
         en = "Timer Visiblity Speed",
+        ["zh-cn"] = "计时器可视速率",
     },
-
+ 
     group_boss_settings = {
         en = "Boss Settings",
+        ["zh-cn"] = "Boss设置",
     },
     loc_timer_regenerate = {
         en = "Show Regeneration Time",
+        ["zh-cn"] = "显示再生时间",
     },
     loc_timer_ttk = {
         en = "Show Time-To-Kill Time",
+        ["zh-cn"] = "显示击杀时间",
     },
-
+ 
     loc_opt_seconds_only = {
-        en = "Seconds (0.000)"
+        en = "Seconds (0.000)",
+        ["zh-cn"] = "秒(0.000)",
     },
     loc_opt_stopwatch = {
-        en = "Minutes and Seconds (0:00.000)"
+        en = "Minutes and Seconds (0:00.000)",
+        ["zh-cn"] = "秒(0:00.000)",
     }
 }
 
