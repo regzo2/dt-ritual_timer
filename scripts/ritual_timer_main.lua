@@ -5,6 +5,7 @@ local Breeds = require("scripts/settings/breed/breeds")
 
 local _timer_lerp
 local _timer_format
+local _timer_time_delta
 local _timer_millisecond_decimals
 local _timer_visible_time
 local _timer_boss_active
@@ -12,6 +13,7 @@ local _timer_boss_data
 
 local function _apply_settings()
     _timer_lerp                  = mod:get("sett_timer_lerp_id") or 0
+    _timer_time_delta            = mod:get("sett_timer_time_delta_id") or 1
     _timer_format                = mod:get("sett_timer_format_id") or "opt_stopwatch"
     _timer_millisecond_decimals  = mod:get("sett_timer_millisecond_decimals_id") or 3
     _timer_visible_time          = mod:get("sett_timer_visible_time_id") or 5
@@ -59,7 +61,7 @@ mod:hook_safe(CLASS.HudElementBossHealth, "event_boss_encounter_start", function
         target.ritual_timer = true
         target.breed_name = breed_name
         if breed_name == "chaos_mutator_daemonhost" then -- workaround for health start oversight
-            target.timer_countdown = 3
+            target.timer_countdown = 4
         end
         --target.time = 1
     end
@@ -198,7 +200,9 @@ mod:hook_safe(CLASS.HudElementBossHealth, "update", function(self, dt, t)
                 ritual_timer_widget.style.text.text_color = color
             end
 
-            if target.last_health_percent ~= current_health_percent then
+            local time_delta = 1
+            if target.last_health_percent ~= current_health_percent and ((target.rate and target.rate > 0) or (t - (target.last_time_checked or 0)) > time_delta) then
+                
                 if target.timer_countdown and target.timer_countdown > 0 then
                     --mod:echo("steps: " .. target.timer_countdown)
                     target.timer_countdown = target.timer_countdown - 1

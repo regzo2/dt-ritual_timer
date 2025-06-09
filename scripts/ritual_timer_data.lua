@@ -69,6 +69,13 @@ return {
                         decimals_number = 0,
                     },
                     {
+                        setting_id      = "sett_timer_time_delta_id",
+                        type            = "numeric",
+                        default_value   = 1,
+                        range           = {0.1, 2},
+                        decimals_number = 2,
+                    },
+                    {
                         setting_id      = "sett_timer_visible_time_id",
                         type            = "numeric",
                         default_value   = 5,
