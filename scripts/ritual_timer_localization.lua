@@ -48,6 +48,10 @@ local base_localization = {
         en = "Timer Visiblity Speed",
         ["zh-cn"] = "计时器可视速率",
     },
+    sett_timer_time_delta_id = {
+        en = "Timer Update Interval",
+        ["zh-cn"] = "计时器更新间隔",
+    },
  
     group_boss_settings = {
         en = "Boss Settings",
@@ -70,6 +74,8 @@ local base_localization = {
         en = "Minutes and Seconds (0:00.000)",
         ["zh-cn"] = "秒(0:00.000)",
     }
+
+    
 }
 
 local function _localization_table()
